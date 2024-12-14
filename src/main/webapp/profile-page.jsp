@@ -25,7 +25,7 @@
             <form class="row" action="profile-page" method="post" enctype="multipart/form-data">
                 <div class="col-md-4">
                     <div class="row">
-                        <div class="col-md-12">
+                        <%--<div class="col-md-12">
                             <h2 class="h3 mb-3 text-black">Profile image</h2>
 
                             <div class="p-3 border d-flex justify-content-center">
@@ -53,7 +53,7 @@
 
                                 <input name="profile-image" type="file" id="imgInp" style="display: none;">
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
 
