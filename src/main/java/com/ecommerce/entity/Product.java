@@ -8,8 +8,8 @@ public class Product {
     private double price;
     private String description;
 
-    private int categoryId;
-    private int accountId;
+    private Category category;
+    private Account account;
     private boolean isDeleted;
     private int amount;
 
@@ -20,16 +20,17 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, String name, String base64Image, double price, String description, int categoryId, int accountId, boolean isDeleted, int amount, Category category, Account account) {
+    public Product(int id, String name, double price, String description, Category category, Account account, boolean isDeleted, int amount, byte[] image, String base64Image) {
         this.id = id;
         this.name = name;
-        this.base64Image = base64Image;
         this.price = price;
         this.description = description;
-        this.categoryId = categoryId;
-        this.accountId = accountId;
+        this.category = category;
+        this.account = account;
         this.isDeleted = isDeleted;
         this.amount = amount;
+        this.image = image;
+        this.base64Image = base64Image;
     }
 
     public int getId() {
@@ -72,28 +73,29 @@ public class Product {
         this.description = description;
     }
 
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     public String getBase64Image() {
         return base64Image;
     }
 
     public void setBase64Image(String base64Image) {
         this.base64Image = base64Image;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
     }
 
     public boolean isDeleted() {
@@ -113,19 +115,6 @@ public class Product {
     }
 
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", categoryId=" + categoryId +
-                ", accountId=" + accountId +
-                ", isDeleted=" + isDeleted +
-                ", amount=" + amount +
-                ", image=" + Arrays.toString(image) +
-                ", base64Image='" + base64Image + '\'' +
-                '}';
-    }
+
+
 }

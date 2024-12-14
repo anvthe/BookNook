@@ -49,7 +49,7 @@ public class ProductDao {
     private List<Product> getListProductQuery(String query) {
         List<Product> list = new ArrayList<>();
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -66,7 +66,7 @@ public class ProductDao {
 //                Blob blob = resultSet.getBlob(9);
 //                String base64Image = getBase64Image(blob);
 
-                list.add(new Product(id, name, null, price, description, 0, 0, isDelete, amount, category, account));
+                list.add(new Product(id, name, price, description, category, account, isDelete, amount, null, null));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -83,23 +83,23 @@ public class ProductDao {
     // Method to get a product by its id from database.
     public Product getProduct(int productId) {
         Product product = new Product();
-        String query = "SELECT * FROM product WHERE product_id = " + productId;
+        String query = "SELECT * FROM product WHERE id = " + productId;
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 product.setId(resultSet.getInt(1));
                 product.setName(resultSet.getString(2));
-                product.setBase64Image(getBase64Image(resultSet.getBlob(3)));
-                product.setPrice(resultSet.getDouble(4));
-                product.setDescription(resultSet.getString(5));
-                /*product.setCategory(categoryDao.getCategory(resultSet.getInt(6)));
-                product.setAccount(accountDao.getAccount(resultSet.getInt(7)));*/
-                product.setDeleted(resultSet.getBoolean(8));
-                product.setAmount(resultSet.getInt(9));
+                //product.setBase64Image(getBase64Image(resultSet.getBlob(3)));
+                product.setPrice(resultSet.getDouble(3));
+                product.setDescription(resultSet.getString(4));
+                product.setCategory(categoryDao.getCategory(resultSet.getInt(5)));
+                product.setAccount(accountDao.getAccount(resultSet.getInt(6)));
+                product.setDeleted(resultSet.getBoolean(7));
+                product.setAmount(resultSet.getInt(8));
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return product;
