@@ -65,14 +65,14 @@
                     <li class="${order_history_active}"><a href="order-history">Orders history</a></li>
                 </c:if>
 
-                <c:if test="${sessionScope.account.isSeller == 1}">
+                <c:if test="${sessionScope.account.isAdmin == 1}">
                     <li class="${product_management_active}"><a href="product-management">Products management</a></li>
                     <li class="${order_management_active}"><a href="order-management">Orders management</a></li>
                 </c:if>
 
-                <c:if test="${sessionScope.account.isAdmin == 1}">
+                <%--<c:if test="${sessionScope.account.isAdmin == 1}">
                     <li class="${websitem_active}"><a href="#">Website management</a></li>
-                </c:if>
+                </c:if>--%>
             </ul>
         </div>
     </nav>

@@ -6,6 +6,7 @@ import com.ecommerce.entity.CartProduct;
 import com.ecommerce.entity.Order;
 import com.ecommerce.entity.Product;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +30,10 @@ public class OrderDao {
 
     // Method to get last order id in database.
     public int getLastOrderId() {
-        String query = "SELECT order_id FROM `order` ORDER BY order_id DESC LIMIT 1";
+        String query = "SELECT id FROM [order] ORDER BY id DESC LIMIT 1";
         int orderId = 0;
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -67,8 +68,8 @@ public class OrderDao {
 
     // Method to insert order information to database.
     public void createOrder(int accountId, double totalPrice, List<CartProduct> cartProducts) {
-        connection = new Database().getConnection();
-        String query = "INSERT INTO `order` (account_id, order_total) VALUES (?, ?);";
+        connection = Database.getConnection();
+        String query = "INSERT INTO [order] (account_id, total, date) VALUES (?, ?, DATE('now'))";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, accountId);
@@ -89,7 +90,7 @@ public class OrderDao {
         List<CartProduct> list = new ArrayList<>();
         String query = "SELECT * FROM order_detail WHERE product_id = " + productId;
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -108,18 +109,24 @@ public class OrderDao {
 
     // Method to get order history of a customer.
     public List<Order> getOrderHistory(int accountId) {
+        Account account = accountDao.getAccount(accountId);
+        String query;
+        if(account.getIsAdmin()==1) {
+            query = "SELECT * FROM [order] ";
+        }else {
+            query = "SELECT * FROM [order] WHERE account_id = " + accountId;
+        }
+
         List<Order> list = new ArrayList<>();
-        String query = "SELECT * FROM `order` WHERE account_id = " + accountId;
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int orderId = resultSet.getInt(1);
                 double orderTotal = resultSet.getDouble(3);
-                Date orderDate = resultSet.getDate(4);
 
-                list.add(new Order(orderId, orderTotal, orderDate));
+                list.add(new Order(orderId, orderTotal, null));
             }
         } catch ( SQLException e) {
             System.out.println("Order history catch:");
@@ -133,7 +140,7 @@ public class OrderDao {
         List<CartProduct> list = new ArrayList<>();
         String query = "SELECT * FROM order_detail WHERE order_id = " + orderId;
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
