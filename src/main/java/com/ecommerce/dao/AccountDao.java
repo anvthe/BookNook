@@ -3,6 +3,7 @@ package com.ecommerce.dao;
 import com.ecommerce.database.Database;
 import com.ecommerce.entity.Account;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 
 public class AccountDao {
@@ -14,7 +15,7 @@ public class AccountDao {
     private Account queryGetAccount(String query) {
         Account account = new Account();
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -23,11 +24,11 @@ public class AccountDao {
                 account.setPassword(resultSet.getString(3));
                 account.setIsSeller(resultSet.getInt(4));
                 account.setIsAdmin(resultSet.getInt(5));
-                account.setAddress(resultSet.getString(7));
-                account.setFirstName(resultSet.getString(8));
-                account.setLastName(resultSet.getString(9));
-                account.setEmail(resultSet.getString(10));
-                account.setPhone(resultSet.getString(11));
+                account.setAddress(resultSet.getString(6));
+                account.setFirstName(resultSet.getString(7));
+                account.setLastName(resultSet.getString(8));
+                account.setEmail(resultSet.getString(9));
+                account.setPhone(resultSet.getString(10));
 
                 // Remove the image-related part since it's no longer needed.
                 // No need to retrieve or set base64 image.
@@ -61,7 +62,7 @@ public class AccountDao {
     public void createAccount(String username, String password) {
         String query = "INSERT INTO account (account_name, account_password, account_is_user, account_is_admin) VALUES (?, ?, 0, 0)";
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
@@ -81,7 +82,7 @@ public class AccountDao {
                 "account_phone = ? " +
                 "WHERE account_id = ?";
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
@@ -105,7 +106,7 @@ public class AccountDao {
                 "account_phone = ? " +
                 "WHERE account_id = ?";
         try {
-            connection = new Database().getConnection();
+            connection = Database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);

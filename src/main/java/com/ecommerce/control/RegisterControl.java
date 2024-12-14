@@ -31,7 +31,7 @@ public class RegisterControl extends HttpServlet {
         if (!password.equals(repeatPassword)) {
             String alert = "<div class=\"alert alert-danger wrap-input100\">\n" +
                     "                        <p style=\"font-family: Ubuntu-Bold; font-size: 18px; margin: 0.25em 0; text-align: center\">\n" +
-                    "                            Incorrect password!\n" +
+                    "                            password mismatched!\n" +
                     "                        </p>\n" +
                     "                    </div>";
             request.setAttribute("alert", alert);
