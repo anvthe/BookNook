@@ -27,7 +27,7 @@ public class ProductManagementControl extends HttpServlet {
         // Get the seller id from session.
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-        int sellerId = account.getId();
+        int sellerId = 2;
         // Get products of seller from database.
         List<Product> productList = productDao.getSellerProducts(sellerId);
         // Get all category for category selection.
