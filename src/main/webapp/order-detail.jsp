@@ -34,7 +34,7 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Product ID</th>
+                                <th>Product Name</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Total</th>
@@ -43,7 +43,7 @@
                             <tbody>
                             <c:forEach items="${order_detail_list}" var="o">
                                 <tr>
-                                    <td>${o.product.id}</td>
+                                    <td>${o.product.name}</td>
 
                                     <td>${o.quantity}</td>
 

@@ -12,21 +12,24 @@ public class Account {
     private String email;
     private String phone;
 
+    private String accountNumber;
+
     public Account() {
 
     }
 
-    public Account(int id, String username, String password, int isSeller, int isAdmin, String address, String firstName, String lastName, String email, String phone) {
+    public Account(int id, String username, String password, int isUser, int isAdmin, String address, String firstName, String lastName, String email, String phone, String accountNumber) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.isUser = isSeller;
+        this.isUser = isUser;
         this.isAdmin = isAdmin;
         this.address = address;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+        this.accountNumber = accountNumber;
     }
 
     public int getId() {
@@ -107,5 +110,21 @@ public class Account {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getIsUser() {
+        return isUser;
+    }
+
+    public void setIsUser(int isUser) {
+        this.isUser = isUser;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 }

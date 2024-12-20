@@ -50,8 +50,6 @@
                                 <div class="block-4 text-center border" style="height: 100%">
                                     <figure class="block-4-image">
                                         <a href="product-detail?id=${o.id}">
-                                            <img src="data:image/jpg;base64,${o.base64Image}" alt="Image placeholder"
-                                                 class="img-fluid" style="height: 100%">
                                         </a>
                                     </figure>
                                     <div class="block-4-text p-4">

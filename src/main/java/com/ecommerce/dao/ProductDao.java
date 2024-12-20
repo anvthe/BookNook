@@ -5,12 +5,8 @@ import com.ecommerce.entity.Account;
 import com.ecommerce.entity.Category;
 import com.ecommerce.entity.Product;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 public class ProductDao {
@@ -28,21 +24,6 @@ public class ProductDao {
         for (Product product : list) {
             System.out.println(product.toString());
         }
-    }
-
-    // Method to get blob image from database.
-    private String getBase64Image(Blob blob) throws SQLException, IOException {
-        InputStream inputStream = blob.getBinaryStream();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[4096];
-        int bytesRead = -1;
-
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            byteArrayOutputStream.write(buffer, 0, bytesRead);
-        }
-        byte[] imageBytes = byteArrayOutputStream.toByteArray();
-
-        return Base64.getEncoder().encodeToString(imageBytes);
     }
 
     // Method to execute query to get list products.
@@ -91,7 +72,6 @@ public class ProductDao {
             while (resultSet.next()) {
                 product.setId(resultSet.getInt(1));
                 product.setName(resultSet.getString(2));
-                //product.setBase64Image(getBase64Image(resultSet.getBlob(3)));
                 product.setPrice(resultSet.getDouble(3));
                 product.setDescription(resultSet.getString(4));
                 product.setCategory(categoryDao.getCategory(resultSet.getInt(5)));
@@ -113,9 +93,39 @@ public class ProductDao {
 
     // Method to search a product by a keyword.
     public List<Product> searchProduct(String keyword) {
-        String query = "SELECT * FROM product WHERE product_name like '%" + keyword + "%' AND is_deleted = false";
-        return getListProductQuery(query);
+        // Query with LIKE to match both name and description.
+        String query = "SELECT * FROM Product WHERE (name LIKE ? OR description LIKE ?)";
+
+        // Use a prepared statement to prevent SQL injection.
+        try {
+             Connection connection = Database.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            // Set the parameters for the query, using "%" around the keyword for partial matching.
+            preparedStatement.setString(1, "%" + keyword + "%");
+            preparedStatement.setString(2, "%" + keyword + "%");
+
+            // Execute the query and retrieve the results.
+            resultSet = preparedStatement.executeQuery();
+
+            List<Product> productList = new ArrayList<>();
+            while (resultSet.next()) {
+                // Populate the product list with the results from the database.
+                Product product = new Product();
+                product.setId(resultSet.getInt("id"));
+                product.setName(resultSet.getString("name"));
+                product.setDescription(resultSet.getString("description"));
+                product.setPrice(resultSet.getDouble("price"));
+                productList.add(product);
+            }
+            return productList;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
+
 
     // Method to get all products of a seller.
     public List<Product> getSellerProducts(int sellerId) {
@@ -139,20 +149,19 @@ public class ProductDao {
     }
 
     // Method to add product to database.
-    public void addProduct(String productName, InputStream productImage, double productPrice, String productDescription, int productCategory, int sellerId, int productAmount) {
-        String query = "INSERT INTO product (product_name, product_image, product_price, product_description, category_id, account_id, is_deleted, product_amount) " +
+    public void addProduct(String productName, double productPrice, String productDescription, int productCategory, int sellerId, int productAmount) {
+        String query = "INSERT INTO product (product_name, product_price, product_description, category_id, account_id, is_deleted, product_amount) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             connection = new Database().getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, productName);
-            preparedStatement.setBinaryStream(2, productImage);
-            preparedStatement.setDouble(3, productPrice);
-            preparedStatement.setString(4, productDescription);
-            preparedStatement.setInt(5, productCategory);
-            preparedStatement.setInt(6, sellerId);
-            preparedStatement.setBoolean(7, false);
-            preparedStatement.setInt(8, productAmount);
+            preparedStatement.setDouble(2, productPrice);
+            preparedStatement.setString(3, productDescription);
+            preparedStatement.setInt(4, productCategory);
+            preparedStatement.setInt(5, sellerId);
+            preparedStatement.setBoolean(6, false);
+            preparedStatement.setInt(7, productAmount);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -160,23 +169,36 @@ public class ProductDao {
     }
 
     // Method to edit product in database.
-    public void editProduct(int productId, String productName, InputStream productImage, double productPrice, String productDescription, int productCategory, int productAmount) {
-        String query = "UPDATE product SET product_name = ?, product_image = ?, product_price = ?, product_description = ?, category_id = ?, product_amount = ? WHERE product_id = ?";
+    public void editProduct(int productId, String productName, double productPrice, String productDescription, int productCategory, int productAmount) {
+        String query = "UPDATE product SET product_name = ?, product_price = ?, product_description = ?, category_id = ?, product_amount = ? WHERE product_id = ?";
         try {
             connection = new Database().getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, productName);
-            preparedStatement.setBinaryStream(2, productImage);
-            preparedStatement.setDouble(3, productPrice);
-            preparedStatement.setString(4, productDescription);
-            preparedStatement.setInt(5, productCategory);
-            preparedStatement.setInt(6, productId);
-            preparedStatement.setInt(7, productAmount);
+            preparedStatement.setDouble(2, productPrice);
+            preparedStatement.setString(3, productDescription);
+            preparedStatement.setInt(4, productCategory);
+            preparedStatement.setInt(5, productId);
+            preparedStatement.setInt(6, productAmount);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
+    public void updateProductAmount(int productId , int productAmount) {
+        String query = "UPDATE product SET amount = ? WHERE id = ?";
+        try {
+            connection = Database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, productAmount);
+            preparedStatement.setInt(2, productId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     // Method to get 12 products to display on each page.
     public List<Product> get12ProductsOfPage(int index) {
@@ -201,17 +223,4 @@ public class ProductDao {
         return totalProduct;
     }
 
-    // Method to decrease new amount of products.
-    public void decreaseProductAmount(int productId, int productAmount) {
-        String query = "UPDATE product SET product_amount = product_amount - ? WHERE product_id = ?";
-        try {
-            connection = new Database().getConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, productAmount);
-            preparedStatement.setInt(2, productId);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 }

@@ -10,16 +10,8 @@
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <ul class="list-unstyled">
-                            <li><a href="#">Sell online</a></li>
-                            <li><a href="#">Features</a></li>
-                            <li><a href="#">Shopping cart</a></li>
-                            <li><a href="#">Store builder</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <ul class="list-unstyled">
-                            <li><a href="#">Book commerce</a></li>
-                            <li><a href="#">Literary accessories</a></li>
+                            <li><a href="#">HOME</a></li>
+                            <li><a href="#">SHOP</a></li>
                         </ul>
                     </div>
                 </div>

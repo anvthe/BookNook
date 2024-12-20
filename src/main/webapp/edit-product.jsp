@@ -50,18 +50,6 @@
                                            id="name" value="${product.name}">
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <label for="image" class="text-black">
-                                        Image <span class="text-danger">*</span>
-                                    </label>
-
-                                    <input name="product-image" type="file" class="form-control"
-                                           id="image">
-                                </div>
-                            </div>
-
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label for="price" class="text-black">
@@ -120,11 +108,11 @@
                     </form>
                 </div>
 
-                <div class="col-md-5 ml-auto">
-                    <div class="p-3 border">
-                        <img src="data:image/jpg;base64,${product.base64Image}" alt="image" width="100%">
-                    </div>
-                </div>
+<%--                <div class="col-md-5 ml-auto">--%>
+<%--                    <div class="p-3 border">--%>
+<%--                        <img src="data:image/jpg;base64,${product.base64Image}" alt="image" width="100%">--%>
+<%--                    </div>--%>
+<%--                </div>--%>
             </div>
         </div>
     </div>

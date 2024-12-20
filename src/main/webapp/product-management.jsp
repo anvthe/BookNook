@@ -27,7 +27,6 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Image</th>
                                 <th>ID</th>
                                 <th style="max-width: 120px">Product name</th>
                                 <th>Price</th>
@@ -40,10 +39,6 @@
                             <tbody>
                             <c:forEach items="${product_list}" var="o">
                                 <tr>
-                                    <td class="product-thumbnail">
-                                        <img src="data:image/jpg;base64,${o.base64Image}" alt="Image" class="img-fluid">
-                                    </td>
-
                                     <td>${o.id}</td>
 
                                     <td>${o.name}</td>
@@ -118,18 +113,6 @@
                                                            id="product-name">
                                                 </div>
                                             </div>
-
-                                            <div class="form-group row">
-                                                <div class="col-md-12">
-                                                    <label for="product-image" class="text-black">
-                                                        Image <span class="text-danger">*</span>
-                                                    </label>
-
-                                                    <input name="product-image" type="file" class="form-control"
-                                                           id="product-image">
-                                                </div>
-                                            </div>
-
                                             <div class="form-group row">
                                                 <div class="col-md-12">
                                                     <label for="product-price" class="text-black">

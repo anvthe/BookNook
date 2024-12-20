@@ -13,8 +13,6 @@ public class Product {
     private boolean isDeleted;
     private int amount;
 
-    private byte[] image;
-    private String base64Image;
 
 
     public Product() {
@@ -29,8 +27,6 @@ public class Product {
         this.account = account;
         this.isDeleted = isDeleted;
         this.amount = amount;
-        this.image = image;
-        this.base64Image = base64Image;
     }
 
     public int getId() {
@@ -47,14 +43,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     public double getPrice() {
@@ -90,14 +78,6 @@ public class Product {
         this.account = account;
     }
 
-    public String getBase64Image() {
-        return base64Image;
-    }
-
-    public void setBase64Image(String base64Image) {
-        this.base64Image = base64Image;
-    }
-
     public boolean isDeleted() {
         return isDeleted;
     }
@@ -114,7 +94,17 @@ public class Product {
         this.amount = amount;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", account=" + account +
+                ", isDeleted=" + isDeleted +
+                ", amount=" + amount +
+                '}';
+    }
 }

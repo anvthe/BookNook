@@ -29,6 +29,8 @@ public class AccountDao {
                 account.setLastName(resultSet.getString(8));
                 account.setEmail(resultSet.getString(9));
                 account.setPhone(resultSet.getString(10));
+                account.setAccountNumber(resultSet.getString(11));
+
 
                 // Remove the image-related part since it's no longer needed.
                 // No need to retrieve or set base64 image.

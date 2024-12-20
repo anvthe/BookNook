@@ -27,7 +27,6 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th class="product-thumbnail">Image</th>
                                 <th class="product-name">Product</th>
                                 <th class="product-price">Price</th>
                                 <th class="product-quantity">Quantity</th>
@@ -39,10 +38,6 @@
                             <tbody>
                             <c:forEach items="${order.cartProducts}" var="o">
                                 <tr>
-                                    <td class="product-thumbnail">
-                                        <img src="data:image/jpg;base64,${o.product.base64Image}" alt="Image"
-                                             class="img-fluid">
-                                    </td>
 
                                     <td>
                                         <input name="product-name" class="form-control-plaintext h5 text-black"

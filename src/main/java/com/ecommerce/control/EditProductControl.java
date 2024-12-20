@@ -50,13 +50,9 @@ public class EditProductControl extends HttpServlet {
         int productCategory = Integer.parseInt(request.getParameter("product-category"));
         int productAmount = Integer.parseInt(request.getParameter("product-amount"));
 
-        // Get upload image.
-        Part part = request.getPart("product-image");
-        InputStream inputStream = part.getInputStream();
-
         // Add product to database.
         ProductDao productDao = new ProductDao();
-        productDao.editProduct(productId, productName, inputStream, productPrice, productDescription, productCategory, productAmount);
+        productDao.editProduct(productId, productName, productPrice, productDescription, productCategory, productAmount);
         response.sendRedirect("product-management");
     }
 }

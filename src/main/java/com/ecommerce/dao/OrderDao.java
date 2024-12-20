@@ -51,7 +51,6 @@ public class OrderDao {
         // Get latest orderId to insert list of cartProduct to order.
         int orderId = getLastOrderId();
         for (CartProduct cartProduct : cartProducts) {
-            productDao.decreaseProductAmount(cartProduct.getProduct().getId(), cartProduct.getQuantity());
             try {
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setInt(1, orderId);

@@ -4,6 +4,7 @@ import com.ecommerce.dao.CategoryDao;
 import com.ecommerce.dao.ProductDao;
 import com.ecommerce.entity.Category;
 import com.ecommerce.entity.Product;
+import com.google.gson.Gson;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 
 @WebServlet(name = "SearchControl", value = "/search")
@@ -20,20 +22,19 @@ public class SearchControl extends HttpServlet {
     ProductDao productDao = new ProductDao();
     CategoryDao categoryDao = new CategoryDao();
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get the search keyword from request.
         String keyword = request.getParameter("keyword");
 
-        // Get all products with the given keyword from database.
+        // Get products matching the keyword
         List<Product> productList = productDao.searchProduct(keyword);
-        // Get all categories from database.
-        List<Category> categoryList = categoryDao.getAllCategories();
 
-        request.setAttribute("product_list", productList);
-        request.setAttribute("category_list", categoryList);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("shop.jsp");
-        requestDispatcher.forward(request, response);
+        // Set response type to JSON
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Convert product list to JSON and send it
+        String json = new Gson().toJson(productList);
+        response.getWriter().write(json);
     }
 
     @Override

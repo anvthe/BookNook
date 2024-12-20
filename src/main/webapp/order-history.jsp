@@ -29,7 +29,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Total</th>
-                                <th>Date</th>
+<%--                                <th>Date</th>--%>
                                 <th style="min-width: 195px">Detail</th>
                             </tr>
                             </thead>
@@ -40,7 +40,7 @@
 
                                     <td>$${o.total}</td>
 
-                                    <td>${o.date}</td>
+<%--                                    <td>${o.date}</td>--%>
 
                                     <td>
                                         <a href="order-detail?order-id=${o.id}" class="btn btn-primary btn-sm"

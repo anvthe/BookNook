@@ -22,9 +22,6 @@ public class AddProductControl extends HttpServlet {
         int productCategory = Integer.parseInt(request.getParameter("product-category"));
         int productAmount = Integer.parseInt(request.getParameter("product-amount"));
 
-        // Get upload image.
-        Part part = request.getPart("product-image");
-        InputStream inputStream = part.getInputStream();
 
         // Get the seller id for product.
         HttpSession session = request.getSession();
@@ -33,7 +30,7 @@ public class AddProductControl extends HttpServlet {
 
         // Add product to database.
         ProductDao productDao = new ProductDao();
-        //productDao.addProduct(productName, inputStream, productPrice, productDescription, productCategory, sellerId, productAmount);
+        productDao.addProduct(productName, productPrice, productDescription, productCategory, sellerId, productAmount);
         response.sendRedirect("product-management");
     }
 }
